@@ -3,7 +3,8 @@ EPaxos
 
 
 ### Usage of bin/client:
-"-c int
+ ```bash
+-c int
     Percentage of conflicts. Defaults to 0% (default -1)
 -check
     Check that every expected reply was received exactly once.
@@ -27,10 +28,11 @@ EPaxos
     Zipfian v parameter (default 1)
 -w int
     Percentage of updates (writes). Defaults to 100%. (default 100)
-"
+ ```
 
 ### Usage of bin/server:
-"-addr string
+ ```bash
+-addr string
     Server address (this machine). Defaults to localhost.
 -beacon
     Send beacons to other replicas to compare their relative speeds.
@@ -55,14 +57,15 @@ EPaxos
     Port # to listen on. Defaults to 7070 (default 7070)
 -thrifty
     Use only as many messages as strictly required for inter-replica communication.
-"
+ ```
 
 ### Usage of bin/master:
-"-N int
+ ```bash
+ -N int
     Number of replicas. Defaults to 3. (default 3)
 -port int
     Port # to listen on. Defaults to 7087 (default 7087)
-"
+```
 
 ## Plots
 
