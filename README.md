@@ -2,58 +2,145 @@ EPaxos
 ======
 
 
-### What is EPaxos?
+### Usage of bin/client:
+  -c int
+        Percentage of conflicts. Defaults to 0% (default -1)
+  -check
+        Check that every expected reply was received exactly once.
+  -e    Egalitarian (no leader). Defaults to false.
+  -eps int
+        Send eps more messages per round than the client will wait for (to discount stragglers). Defaults to 0.
+  -f    Fast Paxos: send message directly to all replicas. Defaults to false.
+  -maddr string
+        Master address. Defaults to localhost
+  -mport int
+        Master port.  Defaults to 7077. (default 7087)
+  -p int
+        GOMAXPROCS. Defaults to 2 (default 2)
+  -q int
+        Total number of requests. Defaults to 5000. (default 5000)
+  -r int
+        Split the total number of requests into this many rounds, and do rounds sequentially. Defaults to 1. (default 1)
+  -s float
+        Zipfian s parameter (default 2)
+  -v float
+        Zipfian v parameter (default 1)
+  -w int
+        Percentage of updates (writes). Defaults to 100%. (default 100)
 
+### Usage of bin/server:
+  -addr string
+        Server address (this machine). Defaults to localhost.
+  -beacon
+        Send beacons to other replicas to compare their relative speeds.
+  -cpuprofile string
+        write cpu profile to file
+  -dreply
+        Reply to client only after command has been executed.
+  -durable
+        Log to a stable store (i.e., a file in the current dir).
+  -e    Use EPaxos as the replication protocol. Defaults to false.
+  -exec
+        Execute commands.
+  -g    Use Generalized Paxos as the replication protocol. Defaults to false.
+  -m    Use Mencius as the replication protocol. Defaults to false.
+  -maddr string
+        Master address. Defaults to localhost.
+  -mport int
+        Master port.  Defaults to 7087. (default 7087)
+  -p int
+        GOMAXPROCS. Defaults to 2 (default 2)
+  -port int
+        Port # to listen on. Defaults to 7070 (default 7070)
+  -thrifty
+        Use only as many messages as strictly required for inter-replica communication.
 
-EPaxos is an efficient, leaderless replication protocol. The name stands for *Egalitarian Paxos* -- EPaxos is based
-on the Paxos consensus algorithm. As such, it can tolerate up to F concurrent replica failures with 2F+1 total replicas.
+### Usage of bin/master:
+  -N int
+        Number of replicas. Defaults to 3. (default 3)
+  -port int
+        Port # to listen on. Defaults to 7087 (default 7087)
 
-### How does EPaxos differ from Paxos and other Paxos variants?
+### Plots
 
-To function effectively as a replication protocol, Paxos has to rely on a stable leader replica (this optimization is known as Multi-Paxos). The leader can become a bottleneck for performance: it has to handle more messages than the other replicas, and remote clients have to contact the leader, thus experiencing higher latency. Other Paxos variants either also rely on a stable leader, or have a pre-established scheme that allows different replicas to take turns in proposing commands (such as Mencius). This latter scheme
-suffers from tight coupling of the performance of the system from that of every replica -- i.e., the system runs at the speed of the slowest replica.
+## 2 Bar plots horizontally for each set of commands' size
+- Small (16B) commands
+- Large (1KB) commands
 
-EPaxos is an efficient, leaderless protocol. It provides **strong consistency with optimal wide-area latency, perfect load-balancing across replicas (both in the local and the wide area), and constant availability for up to F failures**. EPaxos also decouples the performance of the slowest replicas from that of the fastest, so it can better tolerate slow replicas than previous protocols.
+### Replicas
+- 3
 
-### How does EPaxos work?
+### Throughut (reqs / sec) on x axis
 
-We have [an SOSP 2013 paper](http://dl.acm.org/ft_gateway.cfm?id=2517350&ftid=1403953&dwn=1) that describes EPaxos in detail.
+### Variants of Paxos on y axis
+- EPaxos with 0% conflict
+- EPaxos with 25% conflict
+- EPaxos with 50% conflict
+- EPaxos with 100% conflict
+- Mencius
+- Multi-Paxos
 
-A simpler, more straightforward explanation is coming here soon.
+- EPaxos, slow-acc with 0% conflict
+- EPaxos, slow-acc with 100% conflict
+- Mencius, slow-acc
+- Multi-Paxos, slow-leader
 
+## 2 Bar plots horizontally for each set of commands' size
+- Small (16B) commands
+- Large (1KB) commands
 
-### What is in this repository?
+### Replicas
+- 5
 
-This repository contains the Go implementations of:
+### Throughut (reqs / sec) on x axis
 
-* Egalitarian Paxos (EPaxos), a new distributed consensus algorithm based on
-Paxos EPaxos achieves three goals: (1) availability *without interruption*
-as long as a simple majority of replicas are reachable---its availability is not
-interrupted when replicas crash or fail to respond; (2) uniform load balancing
-across all replicas---no replicas experience higher load because they have
-special roles; and (3) optimal commit latency in the wide-area when tolerating
-one and two failures, under realistic conditions. Egalitarian Paxos is to our
-knowledge the first distributed consensus protocol to achieve all of these goals
-efficiently: requiring only a simple majority of replicas to be non-faulty,
-using a number of messages linear in the number of replicas to choose a command,
-and committing commands after just one communication round (one round trip) in
-the common case or after at most two rounds in any case.
+### Variants of Paxos on y axis
+- EPaxos with 0% conflict
+- EPaxos with 25% conflict
+- EPaxos with 50% conflict
+- EPaxos with 100% conflict
+- Mencius
+- Multi-Paxos
 
-* (classic) Paxos
+- EPaxos, slow-acc with 0% conflict
+- EPaxos, slow-acc with 100% conflict
+- Mencius, slow-acc
+- Multi-Paxos, slow-leader
 
-* Mencius
+## 2 Line plots for each latency on y axis:
+- Median Latency (ms) 
+- 99th Percentile Latency
 
-* Generalized Paxos
+### Replicas
+- 3
 
+### Batching
+- batch_size = 0
 
-The struct marshaling and unmarshaling code was generated automatically using
-the tool available at: https://code.google.com/p/gobin-codegen/
+### Throughut (reqs / sec) on x axis
 
-The repository also contains a machine-readable (and model-checkable) specification of EPaxos in TLA+.
+### Variants of Paxos
+- Multi-Paxos
+- Mencius with 100% conflict
+- Mencius with 0% conflict
+- EPaxos with 100% conflict
+- EPaxos with 25% conflict
+- EPaxos with 0% conflict
 
+## 2 Line plots for each replica set:
+- 3 replicas
+- 5 replicas
 
-AUTHORS:
+### Batching
+- batch_size = 10
 
-Iulian Moraru, David G. Andersen -- Carnegie Mellon University
+### 2 Line plots for each latency on y axis:
+- Median Latency (ms) 
+- 99th Percentile Latency
 
-Michael Kaminsky -- Intel Labs
+### Throughut (reqs / sec) on x axis
+
+### Variants of Paxos
+- Multi-Paxos
+- EPaxos with 100% conflict
+- EPaxos with 0% conflict
