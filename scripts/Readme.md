@@ -38,4 +38,4 @@ python3 create_table1.py
  ```
 
 The table will look like this: <br>
-![Alt text](scripts/logs/table1.png)
+![Alt text](scripts/results/table1.png)
