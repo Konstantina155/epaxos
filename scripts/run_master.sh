@@ -1,5 +1,5 @@
 if [ -z "$1" ]; then
-    echo "Usage: $0 <number_of_replicas>"
+    echo "Usage: $0 <replicas>"
     exit 1
 fi
 

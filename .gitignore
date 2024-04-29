@@ -1,2 +1,3 @@
 bin/
-stable-store-*
+scripts/stable-store-*
+scripts/logs/

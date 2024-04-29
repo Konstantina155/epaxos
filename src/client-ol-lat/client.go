@@ -199,7 +199,7 @@ func main() {
 
 		<-donePrinting
 
-		fmt.Printf("Round took %v\n", after.Sub(before))
+		fmt.Printf("Round took %v\n", after.Sub(before).Seconds())
 
 		if *check {
 			for j := 0; j < n; j++ {
@@ -222,7 +222,7 @@ func main() {
 	}
 
 	after_total := time.Now()
-	fmt.Printf("Test took %v\n", after_total.Sub(before_total))
+	fmt.Printf("Test took %v\n", after_total.Sub(before_total).Seconds())
 
 	s := 0
 	for _, succ := range successful {
