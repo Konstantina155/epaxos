@@ -3,12 +3,15 @@ import pandas as pd
 import re
 
 def run_analysis(filename):
-    command = ["python3", f"analysis.py", f"logs/{filename}.out"]
+    if "np_" in filename:
+        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C2-r20000-b1-c0--client0.out"]
+    else:
+        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C2-r20000-b1-c0--client0.out"]
     result = subprocess.run(command, capture_output=True, text=True)
     return result.stdout
 
 def parse_output(output):
-    throughput_match = re.search(r"Throughput \(client requests per second\): (\d+\.\d+)", output)
+    throughput_match = re.search(r"Throughput \(ops/sec\): (\d+\.\d+)", output)
     median_match = re.search(r"Median latency: (\d+\.\d+)ms", output)
     percentile_match = re.search(r"99th percentile latency: (\d+\.\d+)ms", output)
     if median_match and percentile_match and throughput_match:

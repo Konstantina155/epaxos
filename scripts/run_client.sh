@@ -1,25 +1,21 @@
-if [ "$#" -ne 8 ]; then
-    echo "Usage: $0 <clients> <requests> <writes> <epaxos_enabled> <batch_size> <GOMAXPROCS> <conflicts> <filename>"
+if [ "$#" -ne 9 ]; then
+    echo "Usage: $0 <replicas> <clients> <requests> <writes> <epaxos_enabled> <batch_size> <GOMAXPROCS> <conflicts> <filename>"
     exit 1
 fi
 
-filename=$8
-if [ -f logs/$filename ]; then
-  rm logs/$filename
-fi
-
-clients=$1
-reqs=$2
-writes=$3
-epaxos_enabled=$4
-batch_size=$5
-gomaxprocs=$6
-conflicts=$7
+replicas=$1
+clients=$2
+reqs=$3
+writes=$4
+epaxos_enabled=$5
+batch_size=$6
+gomaxprocs=$7
+conflicts=$8
 rounds=$((reqs / batch_size))
 
-echo "Num_clients:$clients and num_requests:$reqs" >> logs/$filename
-for((c = 1; c <= $clients; c++))
+for((c = 0; c < $clients; c++))
 do
-  ../bin/client -q $reqs -w $writes -e=$epaxos_enabled -r $rounds -p $gomaxprocs -c $conflicts >> logs/$filename &
+    filename=logs/$9-S$replicas-C$clients-r$reqs-b$batch_size-c$conflicts--client$c.out
+  ../bin/client -q $reqs -w $writes -e=$epaxos_enabled -r $rounds -p $gomaxprocs -c $conflicts >> $filename &
 done
 echo "Finished running clients"
