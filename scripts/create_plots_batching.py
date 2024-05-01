@@ -37,9 +37,9 @@ clients = [20, 40, 60, 80, 100, 200, 300, 400, 500]
 metrics = ["Throughput", "Median Latency (ms)", "99th Percentile Latency (ms)"]
 replicas = [3, 5]
 
-markers=['o', 's', 'd', 'x', '+', '*', '^', 'v', '>', '<']
-i = 0
+markers=['o', 's', 'd']
 for replica in replicas:
+    i = 0
     dfs = []
     for system, file_name in zip(systems, file_names):
         for client in clients:
@@ -58,10 +58,11 @@ for replica in replicas:
 
     plt.xlabel('Throughput (ops/sec)')
     plt.ylabel('Median Latency (ms)')
-    plt.title('Median Latency vs Throughput for 3 replicas')
+    plt.title('Median Latency vs Throughput for 3 replicas (Batching)')
     plt.legend(title='System')
     plt.grid(True)
     plt.show()
+    plt.savefig(f'../results/plot_median_latency_{replica}_replicas_batching.png')
 
     plt.figure(figsize=(10, 6))
     for system in systems:
@@ -72,7 +73,8 @@ for replica in replicas:
 
     plt.xlabel('Throughput (ops/sec)')
     plt.ylabel(f'99%ile Latency (ms)')
-    plt.title(f'99%ile Latency (ms) vs Throughput for 3 replicas')
+    plt.title(f'99%ile Latency (ms) vs Throughput for 3 replicas (Batching)')
     plt.legend(title='System')
     plt.grid(True)
     plt.show()
+    plt.savefig(f'../results/plot_99%ile_latency_{replica}_replicas_batching.png')

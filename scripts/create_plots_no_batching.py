@@ -24,7 +24,6 @@ def parse_output(output):
 
 def create_plots(system, output, client):
     throughput, median_latency, percentile_latency = parse_output(output)
-    print(f"System: {system}, Clients: {client}, Throughput: {throughput}, Median Latency: {median_latency}, 99th Percentile Latency: {percentile_latency}")
     df = pd.DataFrame({
         'Throughput': [throughput],
         'Median Latency (ms)': [median_latency],
@@ -34,12 +33,9 @@ def create_plots(system, output, client):
     })
     return df
 
-systems = ["EPaxos 0%", "Multi-Paxos"]
-file_names = ["batching_epaxos0", "batching_paxos"]
-clients = [1, 2]
-#systems = ["EPaxos 0%", "EPaxos 25%", "EPaxos 100%", "Mencius 0%", "Mencius 100%", "Multi-Paxos"]
-#file_names = ["batching_epaxos0", "batching_epaxos25", "batching_epaxos100", "batching_mencius0", "batching_mencius100", "batching_paxos"]
-#clients = [20, 40, 60, 80, 100, 200, 300, 400, 500]
+systems = ["EPaxos 0%", "EPaxos 25%", "EPaxos 100%", "Mencius 0%", "Mencius 100%", "Multi-Paxos"]
+file_names = ["batching_epaxos0", "batching_epaxos25", "batching_epaxos100", "batching_mencius0", "batching_mencius100", "batching_paxos"]
+clients = [20, 40, 60, 80, 100, 200, 300, 400, 500]
 metrics = ["Throughput", "Median Latency (ms)", "99th Percentile Latency (ms)"]
 
 dfs = []
@@ -52,7 +48,7 @@ for system, file_name in zip(systems, file_names):
 result_df = pd.concat(dfs, ignore_index=True)
 
 plt.figure(figsize=(10, 6))
-markers=['o', 's', 'd', 'x', '+', '*', '^', 'v', '>', '<']
+markers=['o', 's', 'd', 'x', '+', '*']
 i = 0
 for system in systems:
     system_data = result_df[result_df['System'] == system]
@@ -66,6 +62,7 @@ plt.title('Median Latency vs Throughput for 3 replicas')
 plt.legend(title='System')
 plt.grid(True)
 plt.show()
+plt.savefig(f'../results/plot_median_latency_3_replicas_no_batching.png')
 
 plt.figure(figsize=(10, 6))
 i = 0
@@ -81,3 +78,4 @@ plt.title(f'99%ile Latency (ms) vs Throughput for 3 replicas')
 plt.legend(title='System')
 plt.grid(True)
 plt.show()
+plt.savefig(f'../results/plot_99%ile_latency_3_replicas_no_batching.png')
