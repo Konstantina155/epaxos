@@ -3,6 +3,8 @@ import re
 import sys
 import concurrent.futures
 
+# calculate the analysis the same way the Rabia authors did to compare with their results
+
 #example: np_paxos-S3-C2-r20000-b1-c0--client0.out
 def extract_configurations():
     filename_info = re.findall(r'-S(\d+)-C(\d+)-r(\d+)-b(\d+)-c(-?\d+)--client(\d+)', filename)
@@ -42,7 +44,7 @@ def calculate_metrics(client_filename):
     result["p99"] = latencies[int(len(latencies) * 0.99)]
     return result
 
-def analyze_in_batching():
+def analyze_throughput_latency_batching():
     with concurrent.futures.ThreadPoolExecutor() as executor:
         metrics = []
         for i in range(clients):
@@ -89,6 +91,32 @@ def analyze_throughput_for_each_client():
     total_requests = clients * reqs
     throughput = round(total_requests / max(durations), 2)
     print(f"Throughput (ops/sec): {throughput}")
+
+# My addition, the Rabia github does not provide a latency analysis when open-loop
+def analyze_latency_for_each_client():
+    latencies = []
+    for i in range(clients):
+        client_filename = filename.replace(f"client{client_num}", f"client{i}")
+        with open(client_filename, 'r') as f:
+            lines = f.readlines()
+
+        client_latencies = []
+        for line in lines:
+            if "Round took" in line:
+                match = re.search(r'Round took (\d+\.\d+)', line)
+                if match:
+                    client_latencies.append(float(match.group(1).strip()[:-2]) * 1000)
+        latencies.extend(client_latencies)
+
+    if latencies:
+        median_latency = statistics.median(latencies)
+        percentile_latency = statistics.quantiles(latencies, n=100, method='inclusive')[-1]
+
+        print(f"Median latency: {median_latency}ms")
+        print(f"99th percentile latency: {percentile_latency}ms")
+    else:
+        print("No latency data found in any of the client files.")
+
 
 # start NP (table1) implementation for analysis (probably not gonna use it)
 def extract_time(line):
@@ -162,7 +190,7 @@ if __name__ == "__main__":
     replicas, clients, reqs, batch_size, conflicts, client_num = extract_configurations()
 
     if batch_size != 1:
-        analyze_in_batching()
+        analyze_throughput_latency_batching()
     else:
         analyze_throughput_for_each_client()
-        analyze_latency()
+        analyze_latency_for_each_client()

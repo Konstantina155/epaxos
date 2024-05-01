@@ -12,9 +12,9 @@ Implementation details
  ```bash
 ./run_server.sh 3 2 false true false
  ```
-- run_client **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
+- run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
-./run_client.sh 3 2 20000 50 true 1 2 -1 np_epaxos
+./run_client.sh 3 2 20000 50 true 1 2 0 np_epaxos
  ```
 
 ### (pipelined with small commands)
@@ -27,7 +27,7 @@ Implementation details
  ```bash
 ./run_server.sh 3 4 false true false
  ```
-- run_client **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
+- run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
 ./run_client.sh 3 2 20000 50 true 1 30 0 p_epaxos
  ```
@@ -52,9 +52,9 @@ The table will look like this: <br>
  ```bash
 ./run_server.sh 3 4 false true false
  ```
-- run_client **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
+- run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
-./run_client.sh 3 20 20000 50 true 10 30 -1 batching_epaxos0
+./run_client.sh 3 20 20000 50 true 10 30 0 batching_epaxos0
  ```
 
 ### 4c represents the plot with 5 replicas and 99%ile Latency (ms) in y axis <br>
@@ -69,9 +69,9 @@ The table will look like this: <br>
  ```bash
 ./run_server.sh 5 4 false true false
  ```
-- run_client **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
+- run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
-./run_client.sh 5 20 20000 50 true 10 30 -1 batching_epaxos0
+./run_client.sh 5 20 20000 50 true 10 30 0 batching_epaxos0
  ```
 
 ## Figures from EPaxos (No-Batching small commands)
@@ -86,7 +86,7 @@ The table will look like this: <br>
  ```bash
 ./run_server.sh 3 4 true true false
  ```
-- run_client **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
+- run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
-./run_client.sh 3 20 20000 50 true 10 30 -1 batching_epaxos0
+./run_client.sh 3 20 20000 50 true 10 30 0 batching_epaxos0
  ```
