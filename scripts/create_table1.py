@@ -4,7 +4,7 @@ import re
 
 def run_analysis(filename):
     if "np_" in filename:
-        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C2-r20000-b1-c0--client0.out"]
+        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C2-r20000-b1-c-1--client0.out"]
     else:
         command = ["python3", f"analysis.py", f"logs/{filename}-S3-C2-r20000-b1-c0--client0.out"]
     result = subprocess.run(command, capture_output=True, text=True)
@@ -32,4 +32,5 @@ for system, file_name in zip(systems, file_names):
     output = run_analysis(file_name)
     fill_table(df, system, output)
 
+print("Table 1: Performance comparison of EPaxos, Multi-Paxos, and Mencius for 3 replicas")
 print(df.to_string(index=True, justify='left', float_format='{:.2f}'.format))

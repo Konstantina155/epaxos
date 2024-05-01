@@ -18,4 +18,4 @@ do
     filename=logs/$9-S$replicas-C$clients-r$reqs-b$batch_size-c$conflicts--client$c.out
   ../bin/client -q $reqs -w $writes -e=$epaxos_enabled -r $rounds -p $gomaxprocs -c $conflicts >> $filename &
 done
-echo "Finished running clients"
+./check_process_finished.sh

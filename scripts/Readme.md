@@ -1,8 +1,10 @@
 Implementation details
 ======
 
+## Plays a sound when all client processes are finished
+
 ## Table 1 (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
-### NP (No-pipelined with small commands)
+### NP (No-pipelined with big commands)
 #### Epaxos (epaxos_enabled=true), Multi-Paxos (epaxos_enabled=false) and Mencius (mencius_enabled=true)
 - run_master **replicas** <br>
  ```bash
@@ -14,7 +16,7 @@ Implementation details
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
-./run_client.sh 3 2 20000 50 true 1 2 0 np_epaxos
+./run_client.sh 3 2 20000 100 true 1 2 -1 np_epaxos
  ```
 
 ### (pipelined with small commands)
