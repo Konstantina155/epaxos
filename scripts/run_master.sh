@@ -11,4 +11,4 @@ mencius_enabled=$5
 
 ../bin/master -N $replicas &
 sleep 0.1
-../bin/server -port 7071 -maddr "10.10.1.1" -addr "10.10.1.1" -p $gomaxprocs -thrifty=$thrifty -e=$epaxos_enabled -m=$mencius_enabled &
+../bin/server -port 7071 -maddr "127.0.0.1" -addr "127.0.0.1" -p $gomaxprocs -thrifty=$thrifty -e=$epaxos_enabled -m=$mencius_enabled &

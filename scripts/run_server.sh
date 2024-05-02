@@ -10,4 +10,4 @@ thrifty=$4
 epaxos_enabled=$5
 mencius_enabled=$6
 
-../bin/server -port $port -maddr "10.10.1.1" -addr $replica_ip -p $gomaxprocs -thrifty=$thrifty -e=$epaxos_enabled -m=$mencius_enabled &
+../bin/server -port $port -maddr "127.0.0.1" -addr $replica_ip -p $gomaxprocs -thrifty=$thrifty -e=$epaxos_enabled -m=$mencius_enabled &
