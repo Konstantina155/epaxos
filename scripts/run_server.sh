@@ -1,17 +1,13 @@
-if [ "$#" -ne 5 ]; then
-    echo "Usage: $0 <replicas> <gomaxprocs> <thrifty> <epaxos_enabled> <mencius_enabled>"
+if [ "$#" -ne 6 ]; then
+    echo "Usage: $0 <replica_ip> <port> <gomaxprocs> <thrifty> <epaxos_enabled> <mencius_enabled>"
     exit 1
 fi
 
-replicas=$1
-gomaxprocs=$2
-thrifty=$3
-epaxos_enabled=$4
-mencius_enabled=$5
+replica_ip=$1
+port=$2
+gomaxprocs=$3
+thrifty=$4
+epaxos_enabled=$5
+mencius_enabled=$6
 
-for((c = 1; c <= $replicas; c++))
-do
-    port=$((7071 + $c))
-    ../bin/server -port $port -p $gomaxprocs -thrifty=$thrifty -e=$epaxos_enabled -m=$mencius_enabled &
-    sleep 1
-done
+../bin/server -port $port -maddr "10.10.1.1" -addr $replica_ip -p $gomaxprocs -thrifty=$thrifty -e=$epaxos_enabled -m=$mencius_enabled &

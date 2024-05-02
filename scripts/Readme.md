@@ -39,31 +39,37 @@ ssh -i filename.pem ec2-user@public_ip
 ## Table 1 (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
 ### NP (No-pipelined with big commands)
 #### Epaxos (epaxos_enabled=true), Multi-Paxos (epaxos_enabled=false) and Mencius (mencius_enabled=true)
-- run_master **replicas** <br>
+- run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_master.sh 3
+# Modify epaxos_enabled mencius_enabled
+./run_master.sh 3 2 false true false
  ```
-- run_servers **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_server.sh 3 2 false true false
+# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 10.10.1.2 7072 2 false true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
+# Modify epaxos_enabled filename
 ./run_client.sh 3 2 20000 100 true 1 2 -1 np_epaxos
  ```
 
 ### (pipelined with small commands)
 #### Epaxos (epaxos_enabled=true), Multi-Paxos (epaxos_enabled=false) and Mencius (mencius_enabled=true)
-- run_master **replicas** <br>
+- run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_master.sh 3
+# Modify epaxos_enabled mencius_enabled
+./run_master.sh 3 4 false true false
  ```
-- run_servers **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_server.sh 3 4 false true false
+# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 10.10.1.2 7072 4 false true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
+# Modify epaxos_enabled filename
 ./run_client.sh 3 2 20000 50 true 1 30 0 p_epaxos
  ```
 
@@ -79,66 +85,88 @@ The table will look like this: <br>
 ### 4a & 4b (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
 #### Clients=20,40,60,80,100,200,300,400,500
 ##### Epaxos (epaxos_enabled=true and c=0), Epaxos (epaxos_enabled=true and c=100) and Multi-Paxos (epaxos_enabled=false)
-- run_master **replicas** <br>
+- run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_master.sh 3
+# Modify epaxos_enabled mencius_enabled
+./run_master.sh 3 4 false true false
  ```
-- run_servers **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_server **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_server.sh 3 4 false true false
+# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 10.10.1.2 7072 4 false true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
+# Modify clients epaxos_enabled conflicts filename
 ./run_client.sh 3 20 20000 50 true 10 30 0 batching_epaxos0
  ```
 
 ### 4c represents the plot with 5 replicas and 99%ile Latency (ms) in y axis <br>
-### 4d modified a bit (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
+### 4d modified a bit (6 EC2 instances, 1 for the master + a server, 4 for servers and 1 for the client)
 #### Clients=20,40,60,80,100,200,300,400,500
 ##### Epaxos (epaxos_enabled=true and c=0), Epaxos (epaxos_enabled=true and c=100) and Multi-Paxos (epaxos_enabled=false)
-- run_master **replicas** <br>
+- run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_master.sh 5
+# Modify epaxos_enabled mencius_enabled
+./run_master.sh 5 4 false true false
  ```
-- run_servers **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_server.sh 5 4 false true false
+# Modify port 10.10.1.3 / 10.10.1.4 / 10.10.1.5 epaxos_enabled mencius_enabled
+./run_server.sh 10.10.1.2 7072 4 false true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
+# Modify clients epaxos_enabled conflicts filename
 ./run_client.sh 5 20 20000 50 true 10 30 0 batching_epaxos0
+ ```
+
+Analyze the results in the `logs/` folder and create the plots:
+ ```bash
+python3 create_plots_batching.py
  ```
 
 ## Figures from EPaxos (No-Batching small commands)
 ### 8 (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
 #### Clients=20,40,60,80,100,200,300,400,500
 ##### Epaxos (epaxos_enabled=true and c=0), Epaxos (epaxos_enabled=true and c=25), Epaxos (epaxos_enabled=true and c=100), Mencius (mencius_enabled=true and c=0 and thrifty=false), Mencius (mencius_enabled=true and c=100) and Multi-Paxos (epaxos_enabled=false)
-- run_master **replicas** <br>
+- run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_master.sh 3
+# Modify epaxos_enabled mencius_enabled
+./run_master.sh 3 4 true true false
  ```
-- run_servers **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers**replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_server.sh 3 4 true true false
+# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 10.10.1.2 7072 4 true true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
+# Modify clients epaxos_enabled conflicts filename
 ./run_client.sh 3 20 20000 50 true 1 30 0 batching_epaxos0
+ ```
+
+Analyze the results in the `logs/` folder and create the plots:
+ ```bash
+python3 create_plots_no_batching.py
  ```
 
 ### IF I have the budget for an extra plot
 ### 10 (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
 ### A replica fails, the leader replica fails for Multi-Paxos, achieve 10000 throughput (reqs/sec) for all of them
 ##### Epaxos (epaxos_enabled=true), Mencius (mencius_enabled=true) and Multi-Paxos (epaxos_enabled=false)
-- run_master **replicas** <br>
+- run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_master.sh 3
+# Modify epaxos_enabled mencius_enabled
+./run_master.sh 3 4 true true false
  ```
-- run_servers **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-./run_server.sh 3 4 true true false
+# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 10.10.1.2 7072 4 true true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
+# Modify clients epaxos_enabled filename
 ./run_client.sh 3 observe_from_previous_plots 20000 50 true 1 30 0 failed_replica_epaxos0
  ```
