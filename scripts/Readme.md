@@ -75,11 +75,11 @@ ssh -i filename.pem ec2-user@public_ip
 
 Analyze the results in the `logs/` folder and create the table:
  ```bash
-python3 create_table1.py
+python3 create_table.py
  ```
 
 The table will look like this: <br>
-![Alt text](results/table1.png)
+![Alt text](results/table.png)
 
 ## Figure 4 (Batching small commands)
 ### 4a & 4b (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
