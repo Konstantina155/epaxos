@@ -6,12 +6,13 @@ function install_python() {
 }
 
 # Installs a version of Golang since Rabia is written in Golang
-function install_go() {
-    wget -q https://golang.org/dl/${go_tar}
+function install_go() { 
+    sudo apt install curl
+    curl -OL https://golang.org/dl/${go_tar}
     sudo tar -C /usr/local -xzf ${go_tar}
     rm ${go_tar}
     echo 'export PATH=${PATH}:/usr/local/go/bin' >>~/.bashrc
-    echo 'export GOPATH=$PWD' >>~/.bashrc
+    echo 'export GOPATH=/home/ubuntu/epaxos' >>~/.bashrc
     echo 'export GO111MODULE="auto"' >>~/.bashrc
     source ~/.bashrc
     go version
