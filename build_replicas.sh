@@ -11,10 +11,6 @@ function install_go() {
     curl -OL https://golang.org/dl/${go_tar}
     sudo tar -C /usr/local -xzf ${go_tar}
     rm ${go_tar}
-    echo 'export PATH=${PATH}:/usr/local/go/bin' >>~/.bashrc
-    echo 'export GOPATH=$PWD' >>~/.bashrc
-    echo 'export GO111MODULE="auto"' >>~/.bashrc
-    source ~/.bashrc
     go version
 }
 
