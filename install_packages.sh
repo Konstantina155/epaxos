@@ -11,7 +11,9 @@ function install_go() {
     curl -OL https://golang.org/dl/${go_tar}
     sudo tar -C /usr/local -xzf ${go_tar}
     rm ${go_tar}
-    go version
+    echo 'export PATH=${PATH}:/usr/local/go/bin' >>~/.bashrc
+    echo 'export GOPATH=$PWD' >>~/.bashrc
+    echo 'export GO111MODULE="auto"' >>~/.bashrc
 }
 
 # Installs pip and numpy for python3. Used for non-pipelined Paxos and EPaxos testing.
@@ -23,8 +25,6 @@ function main() {
     install_python
     install_go
     install_numpy
-    build_epaxos
-    allow_exec
 }
 
 go_tar=go1.10.linux-amd64.tar.gz
