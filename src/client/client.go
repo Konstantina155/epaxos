@@ -40,20 +40,6 @@ var rsp []bool
 func main() {
 	flag.Parse()
 
-	log.Println("Maddr: %s", *masterAddr)
-	log.Printf("Master port: %d\n", *masterPort)
-	log.Printf("ReqsNb: %d\n", *reqsNb)
-	log.Printf("Writes: %d\n", *writes)
-	log.Printf("NoLeader: %t\n", *noLeader)
-	log.Printf("Fast: %t\n", *fast)
-	log.Printf("Rounds: %d\n", *rounds)
-	log.Printf("Procs: %d\n", *procs)
-	log.Printf("Check: %t\n", *check)
-	log.Printf("Eps: %d\n", *eps)
-	log.Printf("Conflicts: %d\n", *conflicts)
-	log.Printf("S: %f\n", *s)
-	log.Printf("V: %f\n", *v)
-
 	runtime.GOMAXPROCS(*procs)
 
 	randObj := rand.New(rand.NewSource(42))
