@@ -9,6 +9,7 @@ thrifty=$3
 epaxos_enabled=$4
 mencius_enabled=$5
 
+#fill with master_ip (private) and machine_ip (private)
 ../bin/master -N $replicas &
 sleep 0.1
-../bin/server -port 7071 -p $gomaxprocs -thrifty=$thrifty -e=$epaxos_enabled -m=$mencius_enabled &
+../bin/server -maddr "..." -addr "..." -p $gomaxprocs -thrifty=$thrifty -e=$epaxos_enabled -m=$mencius_enabled &

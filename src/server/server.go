@@ -37,6 +37,20 @@ var durable = flag.Bool("durable", false, "Log to a stable store (i.e., a file i
 func main() {
 	flag.Parse()
 
+	log.Println("Maddr: %s", *masterAddr)
+	log.Printf("Master port: %d\n", *masterPort)
+	log.Printf("Port: %d\n", *portnum)
+	log.Printf("Addr: %s\n", *myAddr)
+	log.Printf("Mencius: %t\n", *doMencius)
+	log.Printf("Generalized Paxos: %t\n", *doGpaxos)
+	log.Printf("EPaxos: %t\n", *doEpaxos)
+	log.Printf("Procs: %d\n", *procs)
+	log.Printf("Thrifty: %t\n", *thrifty)
+	log.Printf("Exec: %t\n", *exec)
+	log.Printf("Dreply: %t\n", *dreply)
+	log.Printf("Beacon: %t\n", *beacon)
+	log.Printf("Durable: %t\n", *durable)
+
 	runtime.GOMAXPROCS(*procs)
 
 	if *cpuprofile != "" {
