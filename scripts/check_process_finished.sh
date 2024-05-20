@@ -10,4 +10,5 @@ while true; do
     sleep 1
 done
 
-aplay ../alert.wav
+#aplay ../alert.wav
+echo 'Client not running anymore!'

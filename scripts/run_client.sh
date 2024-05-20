@@ -1,3 +1,8 @@
+# Modify master ip with private_ip
+
+rm logs/*.out
+
+
 if [ "$#" -ne 9 ]; then
     echo "Usage: $0 <replicas> <clients> <requests> <writes> <epaxos_enabled> <batch_size> <GOMAXPROCS> <conflicts> <filename>"
     exit 1
@@ -16,6 +21,6 @@ rounds=$((reqs / batch_size))
 for((c = 0; c < $clients; c++))
 do
     filename=logs/$9-S$replicas-C$clients-r$reqs-b$batch_size-c$conflicts--client$c.out
-  ../bin/client -maddr "127.0.0.1" -q $reqs -w $writes -e=$epaxos_enabled -r $rounds -p $gomaxprocs -c $conflicts >> $filename &
+  ../bin/client -maddr "172.31.44.200" -q $reqs -w $writes -e=$epaxos_enabled -r $rounds -p $gomaxprocs -c $conflicts >> $filename &
 done
 ./check_process_finished.sh
