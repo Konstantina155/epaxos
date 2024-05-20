@@ -30,7 +30,7 @@ chmod 400 filename.pem
 - Step 2: **Instances** -> Click the instance -> *Descriptions* tab -> Copy the **IPv4 Public IP** value
 - Step 3: Ssh to the chosen instance
  ```bash
-ssh -i filename.pem ec2-user@public_ip
+ssh -i filename.pem ubuntu@public_ip
  ```
 
 # Implementation
@@ -44,10 +44,10 @@ ssh -i filename.pem ec2-user@public_ip
 # Modify epaxos_enabled mencius_enabled
 ./run_master.sh 3 2 false true false
  ```
-- run_servers **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers **master_ip** (public_ip/private_ip) **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
-./run_server.sh 10.10.1.2 7072 2 false true false
+# Modify port master_ip 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 18.212.155.126/172.31.44.200 10.10.1.2 7072 2 false true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
@@ -62,10 +62,10 @@ ssh -i filename.pem ec2-user@public_ip
 # Modify epaxos_enabled mencius_enabled
 ./run_master.sh 3 4 false true false
  ```
-- run_servers **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers **master_ip** (public_ip/private_ip) **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
-./run_server.sh 10.10.1.2 7072 4 false true false
+# Modify port master_ip 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 18.212.155.126/172.31.44.200 10.10.1.2 7072 4 false true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
@@ -90,10 +90,10 @@ The table will look like this: <br>
 # Modify epaxos_enabled mencius_enabled
 ./run_master.sh 3 4 false true false
  ```
-- run_server **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_server **master_ip** (public_ip/private_ip) **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
-./run_server.sh 10.10.1.2 7072 4 false true false
+# Modify port master_ip 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 18.212.155.126/172.31.44.200 10.10.1.2 7072 4 false true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
@@ -110,10 +110,10 @@ The table will look like this: <br>
 # Modify epaxos_enabled mencius_enabled
 ./run_master.sh 5 4 false true false
  ```
-- run_servers **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_server **master_ip** (public_ip/private_ip) **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-# Modify port 10.10.1.3 / 10.10.1.4 / 10.10.1.5 epaxos_enabled mencius_enabled
-./run_server.sh 10.10.1.2 7072 4 false true false
+# Modify port master_ip 10.10.1.3 / 10.10.1.4 / 10.10.1.5 epaxos_enabled mencius_enabled
+./run_server.sh 18.212.155.126/172.31.44.200 10.10.1.2 7072 4 false true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
@@ -135,10 +135,10 @@ python3 create_plots_batching.py
 # Modify epaxos_enabled mencius_enabled
 ./run_master.sh 3 4 true true false
  ```
-- run_servers**replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers **master_ip** (public_ip/private_ip) **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
-./run_server.sh 10.10.1.2 7072 4 true true false
+# Modify port master_ip 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 18.212.155.126/172.31.44.200 10.10.1.2 7072 4 true true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
@@ -160,10 +160,10 @@ python3 create_plots_no_batching.py
 # Modify epaxos_enabled mencius_enabled
 ./run_master.sh 3 4 true true false
  ```
-- run_servers **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+- run_servers **master_ip** (public_ip/private_ip) **replica_ip** **port** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
-# Modify port 10.10.1.3 epaxos_enabled mencius_enabled
-./run_server.sh 10.10.1.2 7072 4 true true false
+# Modify port master_ip 10.10.1.3 epaxos_enabled mencius_enabled
+./run_server.sh 18.212.155.126/172.31.44.200 10.10.1.2 7072 4 true true false
  ```
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
