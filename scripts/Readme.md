@@ -9,8 +9,7 @@ Implementation details
     - 24 CPU Credits / hour
     - 4 GiB Memory
 ### Number of EC2 Instances (see below)
-### Network settings:
-#### Security groups
+### Network settings (Security groups):
 - epaxos_security_group
     - Default VPC 
     - Inbound rule: All traffic && All ports && 0.0.0.0
