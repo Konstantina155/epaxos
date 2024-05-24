@@ -3,37 +3,40 @@ Implementation details
 
 # Amazon Setup
 ## Configurations
-### Instance type (select one of the below)
+### Instance type
 - t2.medium
     - 2 vCPU
     - 24 CPU Credits / hour
     - 4 GiB Memory
-- t2.large
-    - 2 vCPU
-    - 36 CPU Credits / hour
-    - 8 GiB Memory
 ### Number of EC2 Instances (see below)
-### Network settings: Secure Shell (SSH)
-### OS: Ubuntu Linux 11.10
+### Network settings:
+#### Security groups
+- epaxos_security_group
+    - Default VPC 
+    - Inbound rule: All traffic && All ports && 0.0.0.0
+    - Outbound rule: All traffic && All ports && 0.0.0.0
+### OS: Ubuntu Linux
 
 ## Preserving the budget
-- Close running instances + Elastip IP addresses
-- Use an Elastip IP to keep it after an instance is stopped and delete it *before ending lab*
+- Start instances + associate an Elastic IP to each instance (remains the same IP address)
+- Close running instances + release Elastip IP addresses
+- "End lab" after work is done
 - Use https://calculator.aws/#/ to estimate the cost
 
 ## Using SSH to Connect
 - Step 1: Change the permissions in the pem file
  ```bash
 cd ~/Downloads
-chmod 400 filename.pem
+chmod 400 aws_key.pem
  ```
 - Step 2: **Instances** -> Click the instance -> *Descriptions* tab -> Copy the **IPv4 Public IP** value
 - Step 3: Ssh to the chosen instance
  ```bash
-ssh -i filename.pem ubuntu@public_ip
+ssh -i aws_key.pem ubuntu@public_ip
  ```
 
 # Implementation
+## Start plotting the Figure 4 of Rabia (batching), then no-batching (Figure 8 - EPaxos) and Replicas availability (Figure 10 - EPaxos)
 ## Prints a message when all client processes are finished
 
 ## Table 1 (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
