@@ -1,5 +1,4 @@
-rm logs/*.out
-
+mkdir logs-$replicas-replicas-$9
 
 if [ "$#" -ne 9 ]; then
     echo "Usage: $0 <replicas> <clients> <requests> <writes> <epaxos_enabled> <batch_size> <GOMAXPROCS> <conflicts> <filename>"
@@ -19,7 +18,7 @@ rounds=$((reqs / batch_size))
 # fill with master_ip (private)
 for((c = 0; c < $clients; c++))
 do
-    filename=logs/$9-S$replicas-C$clients-r$reqs-b$batch_size-c$conflicts--client$c.out
+    filename=logs-$replicas-replicas-$9/$9-S$replicas-C$clients-r$reqs-b$batch_size-c$conflicts--client$c.out
   ../bin/client -maddr "..." -q $reqs -w $writes -e=$epaxos_enabled -r $rounds -p $gomaxprocs -c $conflicts >> $filename &
 done
 ./check_process_finished.sh

@@ -4,12 +4,14 @@ import re
 import matplotlib.pyplot as plt
 
 def run_analysis(filename, clients): # change number of requests to 20000
+    path = f"logs-{replicas}-replicas-{filename}"
+
     if filename == "batching_epaxos100" or filename == "batching_mencius100":
-        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C{clients}-r200-b1-c100--client0.out"]
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r200-b1-c100--client0.out"]
     elif filename == "batching_epaxos25":
-        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C{clients}-r200-b1-c25--client0.out"]
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r200-b1-c25--client0.out"]
     else:
-        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C{clients}-r200-b1-c0--client0.out"]
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r200-b1-c0--client0.out"]
     result = subprocess.run(command, capture_output=True, text=True)
     return result.stdout
 

@@ -3,10 +3,12 @@ import pandas as pd
 import re
 
 def run_analysis(filename):
+    path = f"logs-{replicas}-replicas-{filename}"
+
     if "np_" in filename:
-        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C2-r20000-b1-c-1--client0.out"]
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C2-r20000-b1-c-1--client0.out"]
     else:
-        command = ["python3", f"analysis.py", f"logs/{filename}-S3-C2-r20000-b1-c0--client0.out"]
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C2-r20000-b1-c0--client0.out"]
     result = subprocess.run(command, capture_output=True, text=True)
     return result.stdout
 
