@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 
 def run_analysis(filename, clients, replicas): # change number of requests to 20000
     if filename == "batching_epaxos100":
-        command = ["python3", f"analysis.py", f"logs/{filename}-S{replicas}-C{clients}-r200-b10-c100--client0.out"]
+        command = ["python3", f"analysis.py", f"logs/{filename}-S{replicas}-C{clients}-r20000-b10-c100--client0.out"]
     else:
-        command = ["python3", f"analysis.py", f"logs/{filename}-S{replicas}-C{clients}-r200-b10-c0--client0.out"]
+        command = ["python3", f"analysis.py", f"logs/{filename}-S{replicas}-C{clients}-r20000-b10-c0--client0.out"]
     result = subprocess.run(command, capture_output=True, text=True)
     return result.stdout
 
