@@ -18,7 +18,7 @@ function install_go() {
 
 # Installs pip and numpy for python3. Used for non-pipelined Paxos and EPaxos testing.
 function install_numpy() {
-    pip install numpy subprocess pandas matplotlib re
+     sudo apt install python3-numpy python3-subprocess python3-pandas python3-matplotlib python3-re
 }
 
 function main() {

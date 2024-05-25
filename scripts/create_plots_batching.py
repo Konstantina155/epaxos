@@ -4,10 +4,17 @@ import re
 import matplotlib.pyplot as plt
 
 def run_analysis(filename, clients, replicas): # change number of requests to 20000
-    if filename == "batching_epaxos100":
-        command = ["python3", f"analysis.py", f"logs/{filename}-S{replicas}-C{clients}-r20000-b10-c100--client0.out"]
+    if filename == "batching_epaxos0":
+        path = f"logs-{replicas}-replicas-batching_epaxos0"
+    elif filename == "batching_epaxos100":
+        path = f"logs-{replicas}-replicas-batching_epaxos100"
     else:
-        command = ["python3", f"analysis.py", f"logs/{filename}-S{replicas}-C{clients}-r20000-b10-c0--client0.out"]
+        path = f"logs-{replicas}-replicas-batching_paxos"
+
+    if filename == "batching_epaxos100":
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S{replicas}-C{clients}-r20000-b10-c100--client0.out"]
+    else:
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S{replicas}-C{clients}-r20000-b10-c0--client0.out"]
     result = subprocess.run(command, capture_output=True, text=True)
     return result.stdout
 
@@ -33,7 +40,7 @@ def create_plots(system, output, client):
 
 systems = ["EPaxos 0%", "EPaxos 100%", "Multi-Paxos"]
 file_names = ["batching_epaxos0", "batching_epaxos100", "batching_paxos"]
-clients = [20, 40, 60, 80, 100, 200, 300, 400, 500]
+clients = [20, 40, 60, 80, 100]
 metrics = ["Throughput", "Median Latency (ms)", "99th Percentile Latency (ms)"]
 replicas = [3, 5]
 
