@@ -65,7 +65,7 @@ for replica in replicas:
 
     plt.xlabel('Throughput (ops/sec)')
     plt.ylabel('Median Latency (ms)')
-    plt.title('Median Latency vs Throughput for 3 replicas (Batching)')
+    plt.title(f'Median Latency vs Throughput for {replica} replicas (Batching)')
     plt.legend(title='System')
     plt.grid(True)
     plt.show()
@@ -80,7 +80,7 @@ for replica in replicas:
 
     plt.xlabel('Throughput (ops/sec)')
     plt.ylabel(f'99%ile Latency (ms)')
-    plt.title(f'99%ile Latency (ms) vs Throughput for 3 replicas (Batching)')
+    plt.title(f'99%ile Latency (ms) vs Throughput for {replica} replicas (Batching)')
     plt.legend(title='System')
     plt.grid(True)
     plt.show()
