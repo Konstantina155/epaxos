@@ -14,6 +14,12 @@ Implementation details
     - Default VPC 
     - Inbound rule: All traffic && All ports && 0.0.0.0
     - Outbound rule: All traffic && All ports && 0.0.0.0
+- allow ports
+    ```bash
+    sudo ufw enable
+    sudo ufw allow 7070/tcp
+    sudo ufw allow 7087/tcp
+    ```
 ### OS: Ubuntu Linux
 
 ## Preserving the budget
@@ -35,49 +41,64 @@ ssh -i aws_key.pem ubuntu@public_ip
  ```
 
 # Implementation
-## Start plotting the Figure 4 of Rabia (batching), then no-batching (Figure 8 - EPaxos) and Replicas availability (Figure 10 - EPaxos)
-## Prints a message when all client processes are finished
+### Start plotting the Figure 4 of Rabia (batching), then no-batching (Figure 8 - EPaxos) and Replicas availability (Figure 10 - EPaxos)
+### Prints a message when all client processes are finished
 
 ## Table 1 (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
-### NP (No-pipelined with big commands)
-#### Epaxos (epaxos_enabled=true), Multi-Paxos (epaxos_enabled=false) and Mencius (mencius_enabled=true)
-- run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+### NP (No-pipelined)
+#### Epaxos
+Edit base-profile.sh in each machine
+
  ```bash
-# Modify epaxos_enabled mencius_enabled
-./run_master.sh 3 2 false true false
- ```
-- run_servers **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
- ```bash
-# Modify epaxos_enabled mencius_enabled
-./run_server.sh 2 false true false
- ```
-- run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
- ```bash
-# Modify epaxos_enabled filename
-./run_client.sh 3 2 20000 100 true 1 2 -1 np_epaxos
+git clone https://github.com/zhouaea/epaxos-single.git && cd epaxos-single
+git checkout epaxos-no-pipelining-no-batching
+. compileEPaxos.sh
+
+vi runMasterServer.sh
+. runMasterServer.sh
+
+vi runServer.sh
+. runServer.sh
+
+vi runClient.sh
+. runClient.sh > log.out
+
+. calculate_throughput_latency.sh
+killall -9 server master client
  ```
 
-### (pipelined with small commands)
-#### Epaxos (epaxos_enabled=true), Multi-Paxos (epaxos_enabled=false) and Mencius (mencius_enabled=true)
-- run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
+#### Multi-Paxos
  ```bash
-# Modify epaxos_enabled mencius_enabled
-./run_master.sh 3 4 false true false
- ```
-- run_servers **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
- ```bash
-# Modify epaxos_enabled mencius_enabled
-./run_server.sh 4 false true false
- ```
-- run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
- ```bash
-# Modify epaxos_enabled filename
-./run_client.sh 3 2 20000 50 true 1 30 0 p_epaxos
+git checkout paxos-no-pipelining-no-batching
+. compilePaxos.sh
+
+vi runMasterServer.sh
+. runMasterServer.sh
+
+vi runServer.sh
+. runServer.sh
+
+vi runClient.sh
+. runClient.sh > log.out
+
+. calculate_throughput_latency.sh
+killall -9 server master client
  ```
 
-Analyze the results in the `logs/` folder and create the table:
+### P (pipelined)
+#### Epaxos
  ```bash
-python3 create_table.py
+
+ ```
+
+#### Multi-Paxos
+ ```bash
+git clone https://github.com/zhouaea/epaxos-single.git && cd epaxos-single
+ ```
+
+Analyze the results in the same folder and create the table:
+ ```bash
+python3.8 create_table.py
  ```
 
 The table will look like this: <br>

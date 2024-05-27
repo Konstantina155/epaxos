@@ -183,7 +183,7 @@ def analyze_throughput():
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 analysis.py <filename>")
+        print("Usage: python3.8 analysis.py <filename>")
         sys.exit(1)
     
     filename = sys.argv[1]

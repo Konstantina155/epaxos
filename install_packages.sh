@@ -28,5 +28,5 @@ function main() {
 }
 
 go_tar=go1.10.linux-amd64.tar.gz
-py_ver=python3
+py_ver=python3.8
 main
