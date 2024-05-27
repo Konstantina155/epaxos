@@ -3,7 +3,7 @@ import pandas as pd
 import re
 import matplotlib.pyplot as plt
 
-def run_analysis(filename, clients): # change number of requests to 20000
+def run_analysis(filename, clients):
     path = f"logs-{replicas}-replicas-{filename}"
 
     if filename == "batching_epaxos100" or filename == "batching_mencius100":
