@@ -88,12 +88,20 @@ killall -9 server master client
 ### P (pipelined)
 #### Epaxos
  ```bash
-
+git clone https://github.com/zhouaea/epaxos.git && cd epaxos
+git checkout epaxos-no-batching
+. runEPaxos.sh
+. analysis.sh ./logs
+killall -9 server master client
  ```
 
 #### Multi-Paxos
  ```bash
-git clone https://github.com/zhouaea/epaxos-single.git && cd epaxos-single
+git clone https://github.com/zhouaea/epaxos.git && cd epaxos
+git checkout paxos-no-batching
+. runPaxos.sh
+. analysis.sh ./logs
+killall -9 server master client
  ```
 
 Analyze the results in the same folder and create the table:
