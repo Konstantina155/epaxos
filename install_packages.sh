@@ -18,7 +18,7 @@ function install_go() {
 
 # Installs pip and numpy for python3. Used for non-pipelined Paxos and EPaxos testing.
 function install_numpy() {
-     sudo apt install python3-numpy python3-subprocess python3-pandas python3-matplotlib python3-re
+     sudo apt install python3-numpy python3-pandas python3-matplotlib
 }
 
 function main() {
@@ -28,5 +28,5 @@ function main() {
 }
 
 go_tar=go1.10.linux-amd64.tar.gz
-py_ver=python3.8
+py_ver=python3
 main
