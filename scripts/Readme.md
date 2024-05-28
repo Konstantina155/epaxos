@@ -174,7 +174,7 @@ python3 create_plots_batching.py
 - run_client **replicas** **clients** **requests** **writes** **epaxos_enabled** **batch_size** **GOMAXPROCS** **conflicts** **filename** <br>
  ```bash
 # Modify clients epaxos_enabled conflicts filename
-./run_client.sh 3 20 20000 50 true 1 30 0 batching_epaxos0
+./run_client.sh 3 20 20000 50 true 1 30 0 epaxos0
  ```
 
 Analyze the results in the `logs/` folder and create the plots:

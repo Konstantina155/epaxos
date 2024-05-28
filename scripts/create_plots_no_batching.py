@@ -36,7 +36,7 @@ def create_plots(system, output, client):
     return df
 
 systems = ["EPaxos 0%", "EPaxos 25%", "EPaxos 100%", "Mencius 0%", "Mencius 100%", "Multi-Paxos"]
-file_names = ["batching_epaxos0", "batching_epaxos25", "batching_epaxos100", "batching_mencius0", "batching_mencius100", "batching_paxos"]
+file_names = ["epaxos0", "epaxos25", "epaxos100", "mencius0", "mencius100", "paxos"]
 clients = [20, 40, 60, 80, 100, 200, 300, 400, 500]
 metrics = ["Throughput", "Median Latency (ms)", "99th Percentile Latency (ms)"]
 
