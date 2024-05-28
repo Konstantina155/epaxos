@@ -109,8 +109,7 @@ Analyze the results in the same folder and create the table:
 python3.8 create_table.py
  ```
 
-The table will look like this: <br>
-![Alt text](results/table.png)
+The table is located in the `results` folder.
 
 ## Figure 4 (Batching small commands)
 ### 4a & 4b (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
@@ -160,7 +159,8 @@ python3 create_plots_batching.py
 ## Figures from EPaxos (No-Batching small commands)
 ### 8 (4 EC2 instances, 1 for the master + a server, 2 for servers and 1 for the client)
 #### Clients=20,40,60,80,100,200,300,400,500
-##### Epaxos (epaxos_enabled=true and c=0), Epaxos (epaxos_enabled=true and c=25), Epaxos (epaxos_enabled=true and c=100), Mencius (mencius_enabled=true and c=0 and thrifty=false), Mencius (mencius_enabled=true and c=100) and Multi-Paxos (epaxos_enabled=false)
+#### Use thrifty optimization in EPaxos and Multi-Paxos, not in Mencius
+#### Epaxos (epaxos_enabled=true and c=0), Epaxos (epaxos_enabled=true and c=25), Epaxos (epaxos_enabled=true and c=100), Mencius (mencius_enabled=true and c=0 and thrifty=false), Mencius (mencius_enabled=true and c=100) and Multi-Paxos (epaxos_enabled=false)
 - run_master **replicas** **gomaxprocs** **thrifty** **epaxos_enabled** **mencius_enabled** <br>
  ```bash
 # Modify epaxos_enabled mencius_enabled
