@@ -44,7 +44,7 @@ def calculate_metrics(client_filename):
     result["p99"] = latencies[int(len(latencies) * 0.99)]
     return result
 
-def analyze_throughput_latency_batching():
+def analyze_throughput_latency():
     with concurrent.futures.ThreadPoolExecutor() as executor:
         metrics = []
         for i in range(clients):
@@ -188,9 +188,7 @@ if __name__ == "__main__":
     
     filename = sys.argv[1]
     replicas, clients, reqs, batch_size, conflicts, client_num = extract_configurations()
-
-    if batch_size != 1:
-        analyze_throughput_latency_batching()
-    else:
-        analyze_throughput_for_each_client()
-        analyze_latency_for_each_client()
+    analyze_throughput_latency()
+    # open loop (rounds = reqs / bacth_size = 1)
+    # analyze_throughput_for_each_client()
+    # analyze_latency_for_each_client()
