@@ -16,15 +16,9 @@ function install_go() {
     echo 'export GO111MODULE="auto"' >>~/.bashrc
 }
 
-# Installs pip and numpy for python3. Used for non-pipelined Paxos and EPaxos testing.
-function install_numpy() {
-     sudo apt install python3-numpy python3-pandas python3-matplotlib
-}
-
 function main() {
     install_python
     install_go
-    install_numpy
 }
 
 go_tar=go1.10.linux-amd64.tar.gz

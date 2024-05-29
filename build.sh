@@ -12,7 +12,6 @@ function allow_exec() {
     chmod +x scripts/*.sh
 }
 
-source ~/.bashrc
 verify_go
 build_epaxos
 allow_exec
