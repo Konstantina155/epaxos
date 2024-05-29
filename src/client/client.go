@@ -53,6 +53,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error connecting to master\n")
 	}
+	log.Printf("Connected to master\n")
 
 	rlReply := new(masterproto.GetReplicaListReply)
 	err = master.Call("Master.GetReplicaList", new(masterproto.GetReplicaListArgs), rlReply)
@@ -108,6 +109,7 @@ func main() {
 		if err != nil {
 			log.Printf("Error connecting to replica %d\n", i)
 		}
+		log.Printf("Connected to replica %d\n", i)
 		readers[i] = bufio.NewReader(servers[i])
 		writers[i] = bufio.NewWriter(servers[i])
 	}
@@ -131,7 +133,7 @@ func main() {
 	before_total := time.Now()
 
 	for j := 0; j < *rounds; j++ {
-
+		log.Printf("Round %d\n", j)
 		n := *reqsNb / *rounds
 
 		if *check {
@@ -144,15 +146,18 @@ func main() {
 		if *noLeader {
 			for i := 0; i < N; i++ {
 				go waitReplies(readers, i, perReplicaCount[i], done)
+				log.Printf("End of waiting for replica %d\n", i)
 			}
 		} else {
 			go waitReplies(readers, leader, n, done)
+			log.Printf("End of waiting for replica %d\n", leader)
 		}
 
 		before := time.Now()
 
 		for i := 0; i < n+*eps; i++ {
 			dlog.Printf("Sending proposal %d\n", id)
+			log.Printf("Sending proposal %d\n", id)
 			args.CommandId = id
 			if put[i] {
 				args.Command.Op = state.PUT
@@ -185,6 +190,7 @@ func main() {
 			}
 		}
 		for i := 0; i < N; i++ {
+			log.Printf("Flushing replica %d\n", i)
 			writers[i].Flush()
 		}
 
@@ -197,6 +203,7 @@ func main() {
 		} else {
 			err = <-done
 		}
+		log.Printf("End of round %d (err=%v)\n", j, err)
 
 		after := time.Now()
 
@@ -231,6 +238,7 @@ func main() {
 	}
 
 	fmt.Printf("Successful: %d\n", s)
+	log.Printf("Successful: %d\n", s)
 
 	for _, client := range servers {
 		if client != nil {
@@ -242,9 +250,10 @@ func main() {
 
 func waitReplies(readers []*bufio.Reader, leader int, n int, done chan bool) {
 	e := false
-
+	log.Printf("Waiting for %d replies from replica %d\n", n, leader)
 	reply := new(genericsmrproto.ProposeReplyTS)
 	for i := 0; i < n; i++ {
+		log.Printf("Reading reply %d from replica %d\n", i, leader)
 		if err := reply.Unmarshal(readers[leader]); err != nil {
 			fmt.Println("Error when reading:", err)
 			e = true
@@ -258,6 +267,7 @@ func waitReplies(readers []*bufio.Reader, leader int, n int, done chan bool) {
 			rsp[reply.CommandId] = true
 		}
 		if reply.OK != 0 {
+			log.Printf("Reply is not OK\n")
 			successful[leader]++
 		}
 	}
