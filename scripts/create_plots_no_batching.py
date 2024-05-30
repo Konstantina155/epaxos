@@ -4,14 +4,15 @@ import re
 import matplotlib.pyplot as plt
 
 def run_analysis(filename, clients):
-    path = f"logs-{replicas}-replicas-{filename}"
+    if filename == "mencius0": filename = "mencius"
+    path = f"../../../logs/no-batching/logs-3-replicas-{filename}"
 
-    if filename == "batching_epaxos100" or filename == "batching_mencius100":
-        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r200-b1-c100--client0.out"]
-    elif filename == "batching_epaxos25":
-        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r200-b1-c25--client0.out"]
+    if filename == "epaxos100" or filename == "mencius100":
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r20000-b1-c100--client0.out"]
+    elif filename == "epaxos25":
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r20000-b1-c25--client0.out"]
     else:
-        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r200-b1-c0--client0.out"]
+        command = ["python3", f"analysis.py", f"{path}/{filename}-S3-C{clients}-r20000-b1-c0--client0.out"]
     result = subprocess.run(command, capture_output=True, text=True)
     return result.stdout
 
@@ -37,7 +38,7 @@ def create_plots(system, output, client):
 
 systems = ["EPaxos 0%", "EPaxos 25%", "EPaxos 100%", "Mencius 0%", "Mencius 100%", "Multi-Paxos"]
 file_names = ["epaxos0", "epaxos25", "epaxos100", "mencius0", "mencius100", "paxos"]
-clients = [20, 40, 60, 80, 100, 200, 300, 400, 500]
+clients = [20, 40, 60, 80, 100]
 metrics = ["Throughput", "Median Latency (ms)", "99th Percentile Latency (ms)"]
 
 dfs = []
