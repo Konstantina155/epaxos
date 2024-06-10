@@ -4,7 +4,7 @@ import re
 import matplotlib.pyplot as plt
 
 def run_analysis(filename, clients, replicas):
-    path = f"logs-{replicas}-replicas-{filename}"
+    path = f"../../../logs/batching/logs-{replicas}-replicas-{filename}"
 
     if filename == "batching_epaxos100":
         command = ["python3", f"analysis.py", f"{path}/{filename}-S{replicas}-C{clients}-r20000-b10-c100--client0.out"]
@@ -35,13 +35,12 @@ def create_plots(system, output, client):
 
 systems = ["EPaxos 0%", "EPaxos 100%", "Multi-Paxos"]
 file_names = ["batching_epaxos0", "batching_epaxos100", "batching_paxos"]
-clients = [20, 40, 60, 80, 100, 200, 300, 400, 500]
+clients = [20, 40, 60, 80, 100]
 metrics = ["Throughput", "Median Latency (ms)", "99th Percentile Latency (ms)"]
 replicas = [3, 5]
 
-markers=['o', 's', 'd']
+markers=['*', 'd', '+']
 for replica in replicas:
-    i = 0
     dfs = []
     for system, file_name in zip(systems, file_names):
         for client in clients:
@@ -52,11 +51,12 @@ for replica in replicas:
     result_df = pd.concat(dfs, ignore_index=True)
 
     plt.figure(figsize=(10, 6))
-
+    i = 0
     for system in systems:
         system_data = result_df[result_df['System'] == system]
         plt.plot(system_data['Throughput'], system_data['Median Latency (ms)'],
                 marker=markers[i], linestyle='-', markersize=8, label=system)
+        i += 1
 
     plt.xlabel('Throughput (ops/sec)')
     plt.ylabel('Median Latency (ms)')
@@ -64,14 +64,14 @@ for replica in replicas:
     plt.legend(title='System')
     plt.grid(True)
     plt.show()
-    plt.savefig(f'../results/plot_median_latency_{replica}_replicas_batching.png')
 
     plt.figure(figsize=(10, 6))
+    j = 0
     for system in systems:
         system_data = result_df[result_df['System'] == system]
         plt.plot(system_data['Throughput'], system_data['99th Percentile Latency (ms)'],
-                marker=markers[i], linestyle='-', markersize=8, label=system)
-    i += 1
+                marker=markers[j], linestyle='-', markersize=8, label=system)
+        j += 1
 
     plt.xlabel('Throughput (ops/sec)')
     plt.ylabel(f'99%ile Latency (ms)')
@@ -79,4 +79,3 @@ for replica in replicas:
     plt.legend(title='System')
     plt.grid(True)
     plt.show()
-    plt.savefig(f'../results/plot_99%ile_latency_{replica}_replicas_batching.png')

@@ -4,7 +4,6 @@ import re
 import matplotlib.pyplot as plt
 
 def run_analysis(filename, clients):
-    if filename == "mencius0": filename = "mencius"
     path = f"../../../logs/no-batching/logs-3-replicas-{filename}"
 
     if filename == "epaxos100" or filename == "mencius100":
@@ -65,7 +64,6 @@ plt.title('Median Latency vs Throughput for 3 replicas')
 plt.legend(title='System')
 plt.grid(True)
 plt.show()
-plt.savefig(f'../results/plot_median_latency_3_replicas_no_batching.png')
 
 plt.figure(figsize=(10, 6))
 i = 0
@@ -81,4 +79,3 @@ plt.title(f'99%ile Latency (ms) vs Throughput for 3 replicas')
 plt.legend(title='System')
 plt.grid(True)
 plt.show()
-plt.savefig(f'../results/plot_99%ile_latency_3_replicas_no_batching.png')
